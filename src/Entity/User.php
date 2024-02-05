@@ -40,15 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $role = null;
 
     #[ORM\Column]
-    private ?\DateTime $subscription_end_at = null;
+    private ?\DateTime $subscriptionEndAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTime $updated_at = null;
+    private ?\DateTime $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: PDF::class, mappedBy: 'user_id')]
+    #[ORM\OneToMany(targetEntity: PDF::class, mappedBy: 'user')]
     private Collection $files;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -167,36 +167,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getSubscriptionEndAt(): ?\DateTime
     {
-        return $this->subscription_end_at;
+        return $this->subscriptionEndAt;
     }
 
-    public function setSubscriptionEndAt(\DateTime $subscription_end_at): static
+    public function setSubscriptionEndAt(\DateTime $subscriptionEndAt): static
     {
-        $this->subscription_end_at = $subscription_end_at;
+        $this->subscriptionEndAt = $subscriptionEndAt;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTime
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
