@@ -36,12 +36,12 @@ class PDF
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserId(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUserId(?User $user): static
     {
         $this->user = $user;
 
