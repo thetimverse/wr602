@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\PDF;
+use App\Entity\Pdf;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PDF>
+ * @extends ServiceEntityRepository<Pdf>
  *
- * @method PDF|null find($id, $lockMode = null, $lockVersion = null)
- * @method PDF|null findOneBy(array $criteria, array $orderBy = null)
- * @method PDF[]    findAll()
- * @method PDF[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Pdf|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Pdf|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Pdf[]    findAll()
+ * @method Pdf[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PDFRepository extends ServiceEntityRepository
+class PdfRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PDF::class);
+        parent::__construct($registry, Pdf::class);
     }
 
 //    /**
-//     * @return PDF[] Returns an array of PDF objects
+//     * @return Pdf[] Returns an array of Pdf objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class PDFRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?PDF
+//    public function findOneBySomeField($value): ?Pdf
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')
