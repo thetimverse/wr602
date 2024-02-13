@@ -2,7 +2,7 @@
 // tests/Entity/UserTest.php
 namespace App\Tests;
 
-use App\Entity\PDF;
+use App\Entity\Pdf;
 use App\Entity\Subscription;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,7 +25,7 @@ class UserTest extends TestCase
         $createdAt = new \DateTimeImmutable('now');
         $updatedAt = new \DateTime('now');
         $subscription = new Subscription();
-        $pdf = new PDF();
+        $pdf = new Pdf();
 
         // Utilisation des setters
         $user->setEmail($email)
@@ -50,7 +50,7 @@ class UserTest extends TestCase
         $this->assertEquals($updatedAt, $user->getUpdatedAt());
         $this->assertEquals($subscription, $user->getSubscription());
 
-        // Pour vérifier les PDFs, on s'attend à ce qu'ils soient stockés dans une Collection
+        // Pour vérifier les Pdfs, on s'attend à ce qu'ils soient stockés dans une Collection
         $this->assertInstanceOf(ArrayCollection::class, $user->getFiles());
         $this->assertTrue($user->getFiles()->contains($pdf));
 

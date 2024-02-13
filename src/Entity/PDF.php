@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PDFRepository;
+use App\Repository\PdfRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PDFRepository::class)]
-class PDF
+#[ORM\Entity(repositoryClass: PdfRepository::class)]
+class Pdf
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,6 +18,9 @@ class PDF
 
     #[ORM\ManyToOne(inversedBy: 'files')]
     private ?User $user = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
 
     public function getId(): ?int
     {
@@ -44,6 +47,18 @@ class PDF
     public function setUserId(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }

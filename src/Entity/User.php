@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTime $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: PDF::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Pdf::class, mappedBy: 'user')]
     private Collection $files;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -187,14 +187,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, PDF>
+     * @return Collection<int, Pdf>
      */
     public function getFiles(): Collection
     {
         return $this->files;
     }
 
-    public function addFile(PDF $file): static
+    public function addFile(Pdf $file): static
     {
         if (!$this->files->contains($file)) {
             $this->files->add($file);
@@ -204,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeFile(PDF $file): static
+    public function removeFile(Pdf $file): static
     {
         if ($this->files->removeElement($file)) {
             // set the owning side to null (unless already changed)
