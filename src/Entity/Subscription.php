@@ -25,9 +25,6 @@ class Subscription
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $media = null;
-
     #[ORM\Column]
     private ?int $pdfLimit = null;
 
@@ -76,18 +73,6 @@ class Subscription
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getMedia(): ?string
-    {
-        return $this->media;
-    }
-
-    public function setMedia(string $media): static
-    {
-        $this->media = $media;
 
         return $this;
     }
