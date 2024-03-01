@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Subscription;
+use App\Repository\SubscriptionRepository;
 use App\Form\RegistrationFormType;
 use App\Security\AppCustomAuthAuthenticator;
 use App\Security\EmailVerifier;
@@ -43,24 +45,38 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $subscriptionEndAt = new \DateTime('+1 year');
+            $createdAt = new \DateTimeImmutable('now');
+            $updatedAt = new \DateTime('now');
+
+            $freeSubscription = $entityManager->getRepository(Subscription::class)->find(1);
+            if ($freeSubscription) {
+                $user->setSubscription($freeSubscription);
+            }
+            
+            $user->setSubscriptionEndAt($subscriptionEndAt)
+                ->setCreatedAt($createdAt)
+                ->setUpdatedAt($updatedAt)
+                ->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('timothee.pluot@gmail.com', 'Registration Symfony Mail'))
+                    ->from(new Address('your_email@example.com', 'Registration Symfony Mail'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            // return $userAuthenticator->authenticateUser(
+            //     $user,
+            //     $authenticator,
+            //     $request
+            // );
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
