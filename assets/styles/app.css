@@ -138,3 +138,10 @@ h1 {
     padding: 0;
     text-align: center;
 }
+
+.alert {
+    text-align: center;
+    background-color: #909090;
+    color: #fff;
+    padding: 5px 0;
+}
