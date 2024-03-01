@@ -20,7 +20,7 @@ class EditProfileController extends AbstractController
         if ($request->isMethod('POST')) {
             $firstname = $request->request->get('firstname');
             $lastname = $request->request->get('lastname');
-            $subscriptionId = $request->request->get('subscription'); 
+            $subscriptionId = $request->request->get('subscription');
 
             if ($firstname) {
                 $user->setFirstname($firstname);
@@ -31,9 +31,9 @@ class EditProfileController extends AbstractController
             }
 
             if ($subscriptionId) {
-                $subscription = $entityManager->getRepository(Subscription::class)->find($subscriptionId); 
+                $subscription = $entityManager->getRepository(Subscription::class)->find($subscriptionId);
                 if ($subscription) {
-                    $user->setSubscription($subscription); 
+                    $user->setSubscription($subscription);
                 }
             }
 
@@ -48,7 +48,7 @@ class EditProfileController extends AbstractController
 
         return $this->render('edit_profile/index.html.twig', [
             'user' => $user,
-            'subscriptions' => $subscriptions, 
+            'subscriptions' => $subscriptions,
         ]);
     }
 }

@@ -20,7 +20,7 @@ class PdfTest extends TestCase
         $title = 'Test';
         $pdfFileName = uniqid() . '.pdf'; // Générez un nom de fichier unique
         $pdfFilePath = 'pdf/' . $pdfFileName; 
-        $filepath = $this->getParameter('kernel.project_dir') . '/public/' . $pdfFilePath;
+        $filepath = $pdfFilePath;
 
         // Utilisation des setters
         $pdf->setCreatedAt($createdAt)

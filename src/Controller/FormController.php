@@ -50,15 +50,15 @@ class FormController extends AbstractController
             $newPdf = $this->pdfService->generatePdfFromUrl($url);
 
             $pdfFileName = uniqid() . '.pdf'; // Générez un nom de fichier unique
-            $pdfFilePath = 'pdf/' . $pdfFileName; 
+            $pdfFilePath = 'pdf/' . $pdfFileName;
             $pdfFullPath = $this->getParameter('kernel.project_dir') . '/public/' . $pdfFilePath;
     
-            file_put_contents($pdfFullPath, $newPdf); 
+            file_put_contents($pdfFullPath, $newPdf);
     
             $pdf = new Pdf();
             $pdf->setCreatedAt(new \DateTimeImmutable());
             $pdf->setTitle($title);
-            $pdf->setFilePath($pdfFilePath); 
+            $pdf->setFilePath($pdfFilePath);
     
             if ($this->getUser()) {
                 $pdf->setUserId($this->getUser());
@@ -67,12 +67,12 @@ class FormController extends AbstractController
             $entityManager->persist($pdf);
             $entityManager->flush();
 
-            // LIMIT
+            // LIMIT PDF
             $subscription = $user->getSubscription();
 
             $startOfDay = new \DateTime("today", new \DateTimeZone('UTC'));
             $endOfDay = new \DateTime("tomorrow", new \DateTimeZone('UTC'));
-            $endOfDay->modify('-1 second'); 
+            $endOfDay->modify('-1 second');
 
             $pdfCountToday = $pdfRepository->findPdfGeneratedByUserOnDate($user->getId(), $startOfDay, $endOfDay);
 
@@ -84,13 +84,12 @@ class FormController extends AbstractController
                     'Content-Type' => 'application/pdf',
                 ]);
             }
-        }  
+        }
         
         if ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('error', 'Invalid URL.');
         }
         
-
         // Afficher le formulaire
         return $this->render('pdf_generator/index.html.twig', [
             'form' => $form->createView(),
