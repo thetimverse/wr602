@@ -22,6 +22,9 @@ class Pdf
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $filepath = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Pdf
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getFilepath(): ?string
+    {
+        return $this->filepath;
+    }
+
+    public function setFilepath(string $filepath): static
+    {
+        $this->filepath = $filepath;
 
         return $this;
     }
