@@ -12,6 +12,31 @@
         {% endblock %}
     </head>
     <body>
+        {% block nav %}
+            <div class="navbar">
+                <a href="{{ path('app_home') }}"><span>PDF</span>Generator</a>
+
+                <ul class="log">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                        {# <li><a href="{{ path('edit_profile') }}">Profile</a></li> #}
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Login</a></li>
+                        <li><a href="{{ path('app_register') }}">Register</a></li>
+                    {% endif %} 
+                </ul>
+            </div>
+        {% endblock %}
+
+
+        {% for flash_message in app.flashes('info') %}
+                <div class="alert alert-info">{{ flash_message }}</div>
+        {% endfor %}
+
+        {% for flash_message in app.flashes('success') %}
+                <div class="alert alert-info">{{ flash_message }}</div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </body>
 </html>
