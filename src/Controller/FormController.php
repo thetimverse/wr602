@@ -29,20 +29,6 @@ class FormController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager, PdfRepository $pdfRepository): Response
     {
         $user = $this->getUser();
-        if ($user) {
-            $subscription = $user->getSubscription();
-
-            $startOfDay = new \DateTime("today", new \DateTimeZone('UTC'));
-            $endOfDay = new \DateTime("tomorrow", new \DateTimeZone('UTC'));
-            $endOfDay->modify('-1 second'); 
-
-            $pdfCountToday = $pdfRepository->findPdfGeneratedByUserOnDate($user->getId(), $startOfDay, $endOfDay);
-
-            if ($subscription && $pdfCountToday >= $subscription->getPdfLimit()) {
-                $this->addFlash('error', 'You have reached the daily limit of your subscription for the number of PDFs generated.');
-                return $this->redirectToRoute('app_pdf_generate');
-            }
-        }
 
         // Créer le formulaire
         $form = $this->createFormBuilder()
@@ -81,10 +67,26 @@ class FormController extends AbstractController
             $entityManager->persist($pdf);
             $entityManager->flush();
 
-            return new Response($newPdf, 200, [
-                'Content-Type' => 'application/pdf',
-            ]);
-        } else {
+            // LIMIT
+            $subscription = $user->getSubscription();
+
+            $startOfDay = new \DateTime("today", new \DateTimeZone('UTC'));
+            $endOfDay = new \DateTime("tomorrow", new \DateTimeZone('UTC'));
+            $endOfDay->modify('-1 second'); 
+
+            $pdfCountToday = $pdfRepository->findPdfGeneratedByUserOnDate($user->getId(), $startOfDay, $endOfDay);
+
+            if ($subscription && $pdfCountToday >= $subscription->getPdfLimit()) {
+                $this->addFlash('error', 'You have reached the daily limit of your subscription for the number of PDFs generated.');
+                return $this->redirectToRoute('app_pdf_generate');
+            } else {
+                return new Response($newPdf, 200, [
+                    'Content-Type' => 'application/pdf',
+                ]);
+            }
+        }  
+        
+        if ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('error', 'Invalid URL.');
         }
         

@@ -1,20 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditProfileController!{% endblock %}
+{% block title %}Edit Profile{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="wrapper">
+    <h1>Edit profile</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/timotheep/www/wr602/src/Controller/EditProfileController.php</code></li>
-        <li>Your template at <code>/Users/timotheep/www/wr602/templates/edit_profile/index.html.twig</code></li>
-    </ul>
+    <form method="post">
+        <div>
+            <label for="firstname" class="form-label">First name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" value="{{ user.firstname }}">
+        </div>
+        <div>
+            <label for="lastname" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" value="{{ user.lastname }}">
+        </div>
+
+        <div>
+            <label for="subscription" class="form-label">Subscription</label>
+            <select class="form-control" id="subscription" name="subscription">
+                {% for subscription in subscriptions %}
+                    <option value="{{ subscription.id }}" {% if user.subscription == subscription %}selected{% endif %}>
+                        {{ subscription.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Update</button>
+    </form>
 </div>
 {% endblock %}

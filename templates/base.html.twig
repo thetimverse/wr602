@@ -19,8 +19,8 @@
 
                 <ul>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
                         <li><a href="{{ path('app_edit_profile') }}">Profile</a></li>
+                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
                     {% else %}
                         <li><a href="{{ path('app_login') }}">Login</a></li>
                         <li><a href="{{ path('app_register') }}">Register</a></li>
