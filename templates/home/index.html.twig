@@ -1,20 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="wrapper">
+    <h1>Welcome to PDFGenerator</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/timotheep/www/wr602/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/Users/timotheep/www/wr602/templates/home/index.html.twig</code></li>
-    </ul>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="container">
+            <div>
+                {% if app.user.firstname %}
+                    <p>Hello {{ app.user.firstname }}, you are currently logged in on PDFGenerator, the best tool to create a PDF from a URL.</p>
+                {% else %}
+                    <p>Hello, you are currently logged in on PDFGenerator, the best tool to create a PDF from a URL.</p>
+                {% endif %}
+                <p>You are subscribed to the {{ user.getSubscription().getTitle() }} subscription, you can generate {{ user.getSubscription().getPdfLimit() }} PDF each day.</p>
+                <p>Number of PDF generated today: {{ pdfCountToday }}</p>
+            </div>
+            <div class="btns">
+                <a href="{{ path('app_pdf_generate') }}" class="btn">Generate PDF</a>
+                <a href="{{ path('app_history') }}" class="btn">PDF History</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="cards">
+            {% for subscription in subscriptions %}
+                <div class="card">
+                    <h2>{{ subscription.title }}</h2>
+                    <p>{{ subscription.description }}</p>
+                    <p>{{ subscription.pdfLimit }} PDFs/day</p>
+                    <p>{{ subscription.price == 0 ? 'Free' : (subscription.price ~ '€') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

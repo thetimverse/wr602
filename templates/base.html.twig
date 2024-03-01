@@ -2,24 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %} - PDF Generator</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% endblock %}
 
         {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
         {% block nav %}
             <div class="navbar">
-                <a href="{{ path('app_home') }}"><span>PDF</span>Generator</a>
+                <a href="{{ path('app_home') }}" class="logo"><span>PDF</span>Generator</a>
 
-                <ul class="log">
+                <ul>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <li><a href="{{ path('app_logout') }}">Logout</a></li>
-                        {# <li><a href="{{ path('edit_profile') }}">Profile</a></li> #}
+                        <li><a href="{{ path('app_edit_profile') }}">Profile</a></li>
                     {% else %}
                         <li><a href="{{ path('app_login') }}">Login</a></li>
                         <li><a href="{{ path('app_register') }}">Register</a></li>
