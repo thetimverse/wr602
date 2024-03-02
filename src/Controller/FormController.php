@@ -34,7 +34,7 @@ class FormController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('title', TextType::class)
             ->add('url', UrlType::class, ['required' => true])
-            ->add('generate', SubmitType::class, ['label' => 'Generate PDF'])
+            ->add('generate', SubmitType::class, ['label' => 'Generate PDF', 'attr' => ['class' => 'btn']])
             ->getForm();
 
         // Gérer la soumission du formulaire
@@ -76,7 +76,7 @@ class FormController extends AbstractController
 
             $pdfCountToday = $pdfRepository->findPdfGeneratedByUserOnDate($user->getId(), $startOfDay, $endOfDay);
 
-            if ($subscription && $pdfCountToday >= $subscription->getPdfLimit()) {
+            if ($subscription && $pdfCountToday > $subscription->getPdfLimit()) {
                 $this->addFlash('error', 'You have reached the daily limit of your subscription for the number of PDFs generated.');
                 return $this->redirectToRoute('app_pdf_generate');
             } else {
