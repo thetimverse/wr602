@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Generate a PDF{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+<div class="wrapper">
+    <h1>Generate a PDF from a URL</h1>
+    {{form(form)}}
+</div>
+{% endblock %}

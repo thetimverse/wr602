@@ -6,11 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -45,11 +47,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTime $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: PDF::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Pdf::class, mappedBy: 'user')]
     private Collection $files;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Subscription $subscription = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function __construct()
     {
@@ -187,14 +192,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, PDF>
+     * @return Collection<int, Pdf>
      */
     public function getFiles(): Collection
     {
         return $this->files;
     }
 
-    public function addFile(PDF $file): static
+    public function addFile(Pdf $file): static
     {
         if (!$this->files->contains($file)) {
             $this->files->add($file);
@@ -204,7 +209,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeFile(PDF $file): static
+    public function removeFile(Pdf $file): static
     {
         if ($this->files->removeElement($file)) {
             // set the owning side to null (unless already changed)
@@ -224,6 +229,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSubscription(?Subscription $subscription): static
     {
         $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

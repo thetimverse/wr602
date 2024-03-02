@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PDF History{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    {% if pdfs|length > 0 %}
+
+        <h1>PDF History</h1>
+            
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Creation date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pdf in pdfs %}
+                    <tr>
+                        <td>{{ pdf.title }}</td>
+                        <td>{{ pdf.createdAt|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('app_pdf_view', {'id': pdf.id}) }}" target="_blank" class="btn">View</a>
+                            <a href="{{ path('app_pdf_delete', {'id': pdf.id}) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this PDF ?');">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning">You have no PDF saved yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

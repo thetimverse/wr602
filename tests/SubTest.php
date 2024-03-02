@@ -18,7 +18,6 @@ class SubTest extends TestCase
         $title = 'Test';
         $price = 9.99;
         $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus dapibus felis, vitae consectetur turpis vulputate ac. Mauris eget mauris ut tellus congue convallis sit amet id elit.';
-        $media = 'image.jpg';
         $pdfLimit = 10;
         $user = new User();
 
@@ -26,7 +25,6 @@ class SubTest extends TestCase
         $sub->setTitle($title)
             ->setPrice($price)
             ->setDescription($description)
-            ->setMedia($media)
             ->setPdfLimit($pdfLimit)
             ->addUser($user);
 
@@ -34,7 +32,6 @@ class SubTest extends TestCase
         $this->assertEquals($title, $sub->getTitle());
         $this->assertEquals($price, $sub->getPrice());
         $this->assertEquals($description, $sub->getDescription());
-        $this->assertEquals($media, $sub->getMedia());
         $this->assertEquals($pdfLimit, $sub->getPdfLimit());
 
         // Pour vérifier les users, on s'attend à ce qu'ils soient stockés dans une Collection

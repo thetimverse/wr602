@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+    <h1>Welcome to PDFGenerator</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="container">
+            <div>
+                {% if app.user.firstname %}
+                    <p>Hello {{ app.user.firstname }}, you are currently logged in on PDFGenerator, the best tool to create a PDF from a URL.</p>
+                {% else %}
+                    <p>Hello, you are currently logged in on PDFGenerator, the best tool to create a PDF from a URL.</p>
+                {% endif %}
+                <p>You are subscribed to the {{ user.getSubscription().getTitle() }} subscription, you can generate {{ user.getSubscription().getPdfLimit() }} PDF each day.</p>
+                <p>Number of PDF generated today: {{ pdfCountToday }}</p>
+            </div>
+            <div class="btns">
+                <a href="{{ path('app_pdf_generate') }}" class="btn">Generate PDF</a>
+                <a href="{{ path('app_history') }}" class="btn">PDF History</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="cards">
+            {% for subscription in subscriptions %}
+                <div class="card">
+                    <h2>{{ subscription.title }}</h2>
+                    <p>{{ subscription.description }}</p>
+                    <p>{{ subscription.pdfLimit }} PDFs/day</p>
+                    <p>{{ subscription.price == 0 ? 'Free' : (subscription.price ~ '€') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
